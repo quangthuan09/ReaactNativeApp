@@ -1,0 +1,12 @@
+{
+  "name": "sixApp",
+  "displayName": "sixApp",
+  "expo": {
+    "name": "sixApp",
+    "slug": "sixApp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
