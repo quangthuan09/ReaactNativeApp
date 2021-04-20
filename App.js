@@ -81,9 +81,14 @@ export default function App() {
   const selectDataSP = () =>{
     let dataSP;
     if(selectedID == 1){
-      dataSP = DataSP.SanPham;
+      dataSP = DataSP.TonCanNguoi;
       console.log('sdsd--------sdsdsd')
     }
+    if(selectedID == 2){
+      dataSP = DataSP.TonLanhMau;
+      console.log('sdsd--------sdsdsd')
+    }
+    return dataSP
   }
   const DataSP = {
     "TonCanNguoi" :[
@@ -133,37 +138,25 @@ export default function App() {
               "key" : "Tôn cuộn cán nguội",
               "sl" : "14.000",
               "dt" : "135.000.000",
-              "detailSP" : 
-                {
                   "logo" : "c",
                   "code" : "ML0900221001",
                   "date" : "08/02/2021",
-                  "sl" : "3",
+                  "soluong" : "3",
                   "price" : "1000",
-                },   
+ 
             },
             {
               "id" : 2,
               "key" : "Tôn lạnh màu",
               "sl" : "12.000",
               "dt" : "93.500.000",
-              "detailSP" : [
-                {
+
                   "logo" : "a",
                   "code" : "ML0900221001",
                   "date" : "002/2021",
-                  "sl" : "5",
+                  "soluong" : "5",
                   "price" : "11.000.000",
-                  },
-                  {
-                    "id" : 2,
-                    "logo" : "b",
-                    "code" : "ML0900221001",
-                    "date" : "08/2/2021",
-                    "sl" : "2",
-                    "price" : "11.00.000",
-                  },
-                ]
+
             },
             {
               "id" : 3,
@@ -282,7 +275,7 @@ export default function App() {
             data={selectData()}
             renderItem={({item}) => 
             <View style = {styles.mainListSPListItem}>
-              <TouchableOpacity onPress={() => console.log('---------------------',item.id,item.detailSP) }  style={{flex : 1}}>
+              <TouchableOpacity onPress={() => console.log('---------------------',item.id) }  style={{flex : 1}}>
               <View style ={{flex : 1,flexDirection :'row'}}>
                 <View  style={styles.itemListSPSP}>
                   <Text style={{flex : 0.5}} >{item.id}</Text>
@@ -294,11 +287,11 @@ export default function App() {
               
               <View  style ={{flex : 1,flexDirection:'row'}}>
                 <View style={{flex :2,flexDirection :'row'}}>
-                  <Text style={{flex : 0.5}}>{}</Text>
+                  <Text style={{flex : 0.5}}>{item.logo}</Text>
                   <View>
-                    <Text style={{fontSize : 18,color:'#333333'}}></Text>
-                    <Text style={{fontSize:13}}>ngày này năm ấy</Text>
-                    <Text style={{fontSize:13}}>Số lượng : 2</Text>
+                    <Text style={{fontSize : 18,color:'#333333'}}>{item.code}</Text>
+                    <Text style={{fontSize:13}}>Ngày :{item.date}</Text>
+                    <Text style={{fontSize:13}}>Số lượng : {item.soluong}</Text>
                   </View>
                 </View>
                 <View style={{flex :1}}>
