@@ -61,6 +61,9 @@ contactAdd:{
     flexDirection:'row',
     flex:1,
     paddingTop:21
+},
+view:{
+    margin: 0,
 }
 });
 

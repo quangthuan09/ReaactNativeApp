@@ -10,8 +10,9 @@ container:{
 },
 header :{
     flex : 1,
-    backgroundColor : 'yellow',
-    borderRadius : 20
+    backgroundColor : '#ECC259',
+    borderBottomLeftRadius:30,
+    borderBottomRightRadius:30,
 },
 main :{
     flex : 3,

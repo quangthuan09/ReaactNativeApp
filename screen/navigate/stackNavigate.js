@@ -15,6 +15,7 @@ const Stack = createStackNavigator();
     <NavigationContainer>
       <Stack.Navigator>
       
+      
         <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
         <Stack.Screen name="AddCustomerScreen" component={AddCustomerScreen} options={{headerShown: false}}/>
         <Stack.Screen name="DetailCustomerScreen" component={DetailCustomerScreen} options={{headerShown: false}}/>

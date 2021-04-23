@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { Text, View,TouchableOpacity,FlatList,SafeAreaView } from 'react-native';
+import { Text, View,TouchableOpacity,FlatList,SafeAreaView,Button } from 'react-native';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
 import { Modal } from 'react-native';
 import { TextInput } from 'react-native';
-
 import { ScrollView } from 'react-native';
-
+import ModalReact from 'react-native-modal';
 
 const DetailCustomer = ({ navigation }) => {
 const [modalCustomerAddChooseContact, setModaCustomerAddChooseContact]= useState(false);
-
+const [isModalVisible, setModalVisible] = useState(false);
 // mở modal thông tin người liên hệ
 const openCustomerAddChooseContact = () => {
     setModaCustomerAddChooseContact(true)
@@ -20,6 +19,9 @@ const openCustomerAddChooseContact = () => {
 const closeCustomerAddChooseContact = () =>{
     setModaCustomerAddChooseContact(false);
 }
+const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -47,8 +49,7 @@ const DATA = [
 
 return(
     <SafeAreaView style={styles.container}>
-    
-    <ScrollView style={styles.scrollView}>
+    <ScrollView style={styles.scrollView} horizontal={false}>
         <View style={styles.header}>
                 <View style={styles.hearContent}>
                     <TouchableOpacity  style ={{marginLeft : 23}}>
@@ -166,7 +167,7 @@ return(
                             </View>
                             
                         </View>
-                        <TouchableOpacity style={{flex:1,justifyContent:'flex-end',flexDirection:'row',paddingTop:10,paddingRight:5}}>
+                        <TouchableOpacity onPress={toggleModal} style={{flex:1,justifyContent:'flex-end',flexDirection:'row',paddingTop:10,paddingRight:5}}>
                             <Icon
                                 name='ellipsis-vertical-outline'
                                 type='ionicon'
@@ -292,7 +293,54 @@ return(
       </View>
     </Modal> 
     
+    <ModalReact 
 
+        style={styles.view}
+         isVisible={isModalVisible}>
+    <View style={{flex: 1,alignItems:'flex-end',flexDirection:'row'}}>  
+        <View style={{backgroundColor:'white',flex:1,borderTopLeftRadius:30,borderTopRightRadius:30}}>
+                <View style={{flexDirection:'row',padding:23,}}>
+                    <Text style={{flex:1,fontSize:24,fontWeight:'600',color:'#333333'}}>Tùy chọn</Text>
+                        <TouchableOpacity onPress={toggleModal}>
+                            <Icon
+                            name='close-outline'
+                            type='ionicon'
+                            size = {30}
+                            color ='#BDBDBD'
+                            />
+                        </TouchableOpacity>
+                        
+                </View>
+                <View style={{height:1,backgroundColor :'#F2F2F2'}}></View>
+
+                <View style={{flexDirection:'row',padding:23}}>
+                    <TouchableOpacity onPress={()=>console.log("sửa item")}>
+                            <Icon
+                            name='create-outline'
+                            type='ionicon'
+                            size = {30}
+                            color ='#ECC259'
+                            />
+                    </TouchableOpacity>
+                    <Text style={{paddingLeft:5,flex:1,fontSize:24,fontWeight:'600',color:'#333333'}}>Sửa</Text>        
+                </View>
+                <View style={{height:1,backgroundColor :'#F2F2F2'}}></View>
+
+                <View style={{flexDirection:'row',padding:23}}>
+                    <TouchableOpacity onPress={()=>console.log("xóa item")}>
+                            <Icon
+                            name='trash-outline'
+                            type='ionicon'
+                            size = {30}
+                            color ='red'
+                            />
+                    </TouchableOpacity>
+                    <Text style={{paddingLeft:5,flex:1,fontSize:24,fontWeight:'600',color:'#333333',color:'red'}}>Xóa</Text>        
+                </View>
+        </View>
+        
+    </View>
+    </ModalReact>
   </SafeAreaView>
 )};
 
