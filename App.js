@@ -9,13 +9,15 @@ export default function App() {
   const cateButonList = useRef(null);
   const [selectButton, setSelectButton] = useState(1);
   const [selectedID, setselectedID] = useState(0);
-
+  const [itemVisible,setItemVisible] = useState();
   const [modalSelectDate, setModalSelectDate]= useState(false);
+  const [modalSelectBranch, setModalSelectBranch]= useState(false);
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
   const [selectedStartDate1, setSelectedStartDate1] = useState(new Date());
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
   const [selectedEndDate1, setSelectedEndDate1] = useState(new Date());
 
+  
 
   const onDateChange = (date, type) => {
     if (type === 'END_DATE') {
@@ -29,19 +31,24 @@ export default function App() {
     }
   };
 
-  const showToastWithGravity = () => {
-    ToastAndroid.showWithGravity(
-      "Ngày bắt đầu không được lớn hơn ngày kết thúc trước",
-      ToastAndroid.SHORT,
-      ToastAndroid.CENTER
-    );
-  };
+  const openItemDetail =()=>{
+    // setItemVisible(true)
+  }
   const openCalendar = () => {
     setModalSelectDate(true)
   }
   const closeCalendar = () =>{
     setModalSelectDate(false);
   }
+  const openBranch = () => {
+    console.log('-------open branch')
+    setModalSelectBranch(true)
+  }
+  const closeBranch = () =>{
+    console.log('-------close branch')
+    setModalSelectBranch(false);
+  }
+
   const submitPickCalendar = ()=>{
     console.log(selectedStartDate.getDate(), '----------', selectedStartDate1.getDate())
     console.log(selectedEndDate.getDate(), '----------', selectedEndDate1.getDate())
@@ -78,57 +85,7 @@ export default function App() {
     }
     return data
   }
-  const selectDataSP = () =>{
-    let dataSP;
-    if(selectedID == 1){
-      dataSP = DataSP.TonCanNguoi;
-      console.log('sdsd--------sdsdsd')
-    }
-    if(selectedID == 2){
-      dataSP = DataSP.TonLanhMau;
-      console.log('sdsd--------sdsdsd')
-    }
-    return dataSP
-  }
-  const DataSP = {
-    "TonCanNguoi" :[
-      {
-      "id" : 1,
-      "logo" : "a",
-      "code" : "ML0900221001",
-      "date" : "002/2021",
-      "sl" : "5",
-      "price" : "11.000.000",
-      },
-      {
-        "id" : 2,
-        "logo" : "b",
-        "code" : "ML0900221001",
-        "date" : "08/2/2021",
-        "sl" : "2",
-        "price" : "11.00.000",
-      },
-      
-    ],
-    "TonLanhMau" : [
-      {
-        "id" : 1,
-        "logo" : "c",
-        "code" : "ML0900221001",
-        "date" : "08/02/2021",
-        "sl" : "3",
-        "price" : "1000",
-      },
-      {
-        "id" : 2,
-        "logo" : "d",
-        "code" : "ML0900221001",
-        "date" : "08/02/2021",
-        "sl" : "6",
-        "price" : "11.000.000",
-      }, 
-    ]
-  };
+
   const Data = {
       "Data" : 
         {
@@ -152,7 +109,7 @@ export default function App() {
               "dt" : "93.500.000",
 
                   "logo" : "a",
-                  "code" : "ML0900221001",
+                  "code" : "ML0900221002",
                   "date" : "002/2021",
                   "soluong" : "5",
                   "price" : "11.000.000",
@@ -231,10 +188,13 @@ export default function App() {
         </TouchableOpacity>
       </View>
       <View style={styles.mainTotal}>
-        <View style= {styles.mainTotalPay}>
+        <TouchableOpacity style= {styles.mainTotalPay}  onPress={openBranch}>
+        <View style= {styles.mainTotalPay} >
+        
           <Text style={{fontSize : 18,textAlign : 'center',color : '#333333'}}>Doanh thu</Text>
           <Text style={{fontSize : 22,textAlign : 'center',color : '#333333'}}>20.000.000 đ</Text>
         </View>
+        </TouchableOpacity>
         <View style= {styles.mainTotalPay}>
         <Text style={{fontSize : 18,textAlign : 'center',color : '#333333'}}>Tổng sản lượng</Text>
           <Text style={{fontSize : 22,textAlign : 'center',color : '#333333'}}>140.000</Text>
@@ -253,7 +213,7 @@ export default function App() {
           
         renderItem={({item, index}) => 
         <TouchableOpacity  
-          onPress={()=>{setSelectButton(item.id), 
+          onPress={()=>{setSelectButton(item.id),console.log("------ mở tab",item.key) ,
           cateButonList.current.scrollToIndex({index: index, viewOffset: 100 })}}
         >
         <Text style={[styles.item, selectButton == item.id ? {backgroundColor:'yellow'} : null]}>{item.key}</Text>
@@ -273,9 +233,9 @@ export default function App() {
             <FlatList
             showsVerticalScrollIndicator ={false}
             data={selectData()}
-            renderItem={({item}) => 
+            renderItem={({item, index}) => 
             <View style = {styles.mainListSPListItem}>
-              <TouchableOpacity onPress={() => console.log('---------------------',item.id) }  style={{flex : 1}}>
+              <TouchableOpacity  onPress={() => setItemVisible(index)}  style={{flex : 1}}>
               <View style ={{flex : 1,flexDirection :'row'}}>
                 <View  style={styles.itemListSPSP}>
                   <Text style={{flex : 0.5}} >{item.id}</Text>
@@ -285,23 +245,40 @@ export default function App() {
                 <Text numberOfLines={1}  style={styles.itemListSPSL}>{item.dt} đ</Text>
               </View>
               
-              <View  style ={{flex : 1,flexDirection:'row'}}>
-                <View style={{flex :2,flexDirection :'row'}}>
-                  <Text style={{flex : 0.5}}>{item.logo}</Text>
+              <View style ={{flex : 1}}>
+              { itemVisible==index ? 
+                <View>
+                {
+                  item.date == null ? null : 
                   <View>
-                    <Text style={{fontSize : 18,color:'#333333'}}>{item.code}</Text>
-                    <Text style={{fontSize:13}}>Ngày :{item.date}</Text>
-                    <Text style={{fontSize:13}}>Số lượng : {item.soluong}</Text>
+                  <View style={{flex :2,flexDirection :'row'}}>
+                    {
+                      item.logo == null ? null :  <Text style={{}}>{item.logo}</Text>
+                    }   
+                      <View>
+                      {
+                        item.code == null ? null : <Text style={{fontSize : 18,color:'#333333'}}>{item.code}</Text>
+                      }
+                      {   
+                        item.date == null ? null :  <Text style={{fontSize:13}}>Ngày :{item.date}</Text>
+                      }
+                      {
+                        item.soluong == null ? null : <Text style={{fontSize:13}}>Số lượng : {item.soluong}</Text>  
+                      } 
+                      </View>
+                      <View  style={{flex :1,justifyContent:'flex-end',flexDirection:'row'}}>
+                      <Text numberOfLines={1} style={{color: '#F13612',fontSize : 18,fontWeight :'bold'}}>{item.price} đ</Text>
                   </View>
-                </View>
-                <View style={{flex :1}}>
-                  <Text numberOfLines={1} style={{color: '#F13612',fontSize : 18,fontWeight :'bold'}}>11.000.000 đ</Text>
 
-                </View>
-
+                    </View>
+                  
+                  </View>
+                }
+                  </View> 
+                : null
+              }   
               </View>
-              </TouchableOpacity>
-              
+              </TouchableOpacity> 
             </View>}
             />
           </View>
@@ -368,7 +345,70 @@ export default function App() {
     </View>
     </TouchableOpacity>
     </Modal>
-    </View>
+
+    <Modal
+     visible={modalSelectBranch}
+    animationType={'fade'}>
+          <View style={{flex : 1}}>
+            <View style={{flex :1,flexDirection :'row'}}>
+              <TouchableOpacity onPress={closeBranch} style={{alignSelf:'center',paddingLeft:23}}>
+                <Icon style={{textAlign :'left'}}
+                  name='arrow-back-outline'
+                  type='ionicon'
+                />
+              </TouchableOpacity>
+              <Text style={{alignSelf:'center',fontSize:24,fontWeight:'600',paddingLeft:22,color :'#333333'}}>Ngành Tôn</Text>
+            </View>
+            <View style={{flex:0.2,backgroundColor:'#F2F2F2'}}></View>
+            <View style={{flex:5}}>
+              <View style={{flex:0.2,flexDirection:'row',borderBottomWidth:1,borderColor :'#E0E0E0',alignItems:'center'}}>
+                <Text style={{flex:1,textAlign:'center'}}>Thương Hiệu</Text>
+                <Text style={{flex:1,textAlign:'center'}}>Tổng sản lượng</Text>
+                <Text style={{flex:1,textAlign:'center'}}>Doanh thu</Text>
+              </View>
+              <View style={{flex:3}}>
+              <FlatList
+            showsVerticalScrollIndicator ={false}
+            data={selectData()}
+            renderItem={({item}) => 
+            <View style = {styles.mainListSPListItem}>
+              <TouchableOpacity onPress={() =>console.log('---------------------',item.id) }  style={{flex : 1}}>
+              <View style ={{flex : 1,flexDirection :'row'}}>
+                <View  style={styles.itemListSPSP}>
+                  <Text style={{flex : 0.5}} >{item.id}</Text>
+                  <Text style={{flex : 3,flexWrap: 'wrap',color : '#333333'}} >{item.key}</Text>
+                </View>   
+                <Text style={styles.itemListSPSL}>{item.sl}</Text>
+                <Text numberOfLines={1}  style={styles.itemListSPSL}>{item.dt} đ</Text>
+              </View>
+              
+              <View visible={true}  style ={{flex : 1,flexDirection:'row'}}>
+              { itemVisible ==item ? 
+                <View>
+                <View style={{flex :2,flexDirection :'row'}}>
+                    <Text style={{flex : 0.5}}>{item.logo}</Text>
+                    <View>
+                      <Text style={{fontSize : 18,color:'#333333'}}>{item.code}</Text>
+                      <Text style={{fontSize:13}}>Ngày :{item.date}</Text>
+                      <Text style={{fontSize:13}}>Số lượng : {item.soluong}</Text>
+                    </View>
+                  </View>
+                  <View  style={{flex :1}}>
+                    <Text numberOfLines={1} style={{color: '#F13612',fontSize : 18,fontWeight :'bold'}}>{item.price}</Text>
+                  </View>
+                </View>
+                : null
+              }
+                  
+              </View>
+              </TouchableOpacity> 
+            </View>}
+            />
+              </View>
+            </View>
+          </View>
+    </Modal>
+  </View>
   );
 }
 
