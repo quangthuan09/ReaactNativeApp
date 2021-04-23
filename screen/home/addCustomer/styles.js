@@ -55,6 +55,9 @@ doneButton :{
     borderWidth : 3,
     borderColor : 'rgba(229, 153, 69, 0.2)',
 },
+checkbox : {
+    alignSelf: "center",
+}
 });
 
 export default styles
