@@ -5,6 +5,10 @@ export default function App({navigation}) {
 
 const [currentDate,setCurrentDate]= useState(new Date());
 
+const openReportScreen = () =>{
+  navigation.navigate('ReportScreen')
+  console.log("abc")
+}
 
 return (
   <View style={{
@@ -281,28 +285,31 @@ return (
         flexDirection:'row',
         flex:1,
       }}>
-        <View style={{
-          flex:1,
-          backgroundColor:'#F8F8F8',
-          alignItems:'center',
-          borderRadius:15,
-          margin:9,
-        }}>
+        <TouchableOpacity style={{flex:1}} onPress={openReportScreen}>
           <View style={{
-            width:52,
-            height:52,
-            marginTop:15
+            flex:1,
+            backgroundColor:'#F8F8F8',
+            alignItems:'center',
+            borderRadius:15,
+            margin:9,
           }}>
-            <Image style={{width:50,height:50}}
-              source={{uri: 'https://reactnative.dev/img/tiny_logo.png',}}>
-            </Image>
+            <View style={{
+              width:52,
+              height:52,
+              marginTop:15
+            }}>
+              <Image style={{width:50,height:50}}
+                source={{uri: 'https://reactnative.dev/img/tiny_logo.png',}}>
+              </Image>
+            </View>
+            <Text style={{
+              color:'#4F4F4F'
+            }}>
+              Báo cáo
+            </Text>
           </View>
-          <Text style={{
-            color:'#4F4F4F'
-          }}>
-            Báo cáo
-          </Text>
-        </View>
+        </TouchableOpacity>
+        
         <View style={{
           flex:1,
           backgroundColor:'#F8F8F8',
